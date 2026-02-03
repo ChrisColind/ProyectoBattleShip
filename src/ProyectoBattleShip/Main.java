@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
     
+    static int siguienteMenu=0;
+    
     static ArrayList<Player> listaUsuarios = new ArrayList<>();
     boolean UsuarioExistente;
     
@@ -22,16 +24,17 @@ public class Main {
                 Login();
                 elegir = n.nextInt();
                 switch(elegir){
-                    case 1: IniciarSesion(menu);
+                    case 1: IniciarSesion();
                     break;
 
                     case 2: CrearJugador();
                     break;
+                    
+                    case 3: SalirJuego();
+                    break;
                 }
-            }while(elegir!=0);
-        }
-        
-        while(menu==1){
+            }while(siguienteMenu==0);
+            
             do{
                 Menu();
                 elegir = n.nextInt();
@@ -46,12 +49,11 @@ public class Main {
                     break;
                 }
                 
-            }while(elegir!=0);
+            }while(siguienteMenu==1);
         }
     }
     
-    
-    //login , PRINCIPAL
+    //login , PRINCIPAL  =================================================================
     static void Login(){
             System.out.println("===INICIA SESION===");
             System.out.println("1. Iniciar sesion");
@@ -61,7 +63,7 @@ public class Main {
             
     }
     //1 , Login , INICIAR SESION
-    public static void IniciarSesion(int menu){
+    public static void IniciarSesion(){
         Scanner n = new Scanner(System.in);
         String contra;
         String user;
@@ -78,6 +80,7 @@ public class Main {
                 if(listaUsuarios.get(x).getNombre().equals(user) && listaUsuarios.get(x).getContra().equals(contra)){
                     System.out.println("Ingresado con exito");
                     UsuarioEncontrado=true;
+                    siguienteMenu=1;
                     break;
                 }
             }
@@ -120,7 +123,12 @@ public class Main {
         listaUsuarios.add(Pl);
         System.out.println("Se creo con exito el usuario!");
     }
-    //MENU DE INICIO
+    //3, login , Salir Juego
+    public static void SalirJuego(){
+        System.exit(0);
+    }
+    
+    //MENU DE INICIO ==================================================================================
     static void Menu(){
         System.out.println("===MENU DE INICIO==");
         System.out.println("1. Jugar");
@@ -130,9 +138,9 @@ public class Main {
         System.out.println("5. Salir");
         System.out.println("\nSeleccione una opcion: ");
     }
+    
     // 1, MENU, JUGAR
     public static void Jugar(){
-        
         
     }
 }
