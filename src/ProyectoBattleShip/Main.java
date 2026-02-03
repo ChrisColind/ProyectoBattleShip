@@ -39,17 +39,41 @@ public class Main {
                 Menu();
                 elegir = n.nextInt();
                 switch(elegir){
-                    case 1:
+                    case 1: Jugar();
                     break;
                         
-                    case 2:
+                    case 2: Configuracion();
                     break;
                     
-                    case 3:
+                    case 3: Reportes();
+                    break;
+                    
+                    case 4: MiPerfil();
+                    break;
+                    
+                    case 5: Salir();
                     break;
                 }
                 
             }while(siguienteMenu==1);
+            
+            do{
+                MenuConfiguracion();
+                elegir = n.nextInt();
+                switch(elegir){
+                    
+                    case 1: Dificultad();
+                    break;
+                        
+                    case 2: ModoDeJuego();
+                    break;
+                    
+                    case 3: Regresar();
+                    break;
+                }
+                
+            }while(siguienteMenu==12);
+            
         }
     }
     
@@ -142,5 +166,43 @@ public class Main {
     // 1, MENU, JUGAR
     public static void Jugar(){
         
+    }
+    
+    public static void Configuracion(){
+        siguienteMenu=12;
+        
+    }
+    
+    public static void Reportes(){
+        
+    }
+    
+    public static void MiPerfil(){
+        
+    }
+    
+    public static void Salir(){
+        siguienteMenu=0;
+        System.out.println(siguienteMenu);
+    }
+    
+    //MENU DE LOS MENUS ================================================
+    static void MenuConfiguracion(){
+        System.out.println("===MENU DE CONFIGURACION===");
+        System.out.println("1. Dificultad");
+        System.out.println("2. Modo de juego");
+        System.out.println("3. Regresar al Menu principal");
+        System.out.println("\nSeleccione una opcion: ");
+    }
+    
+    public static void Dificultad(){
+        System.out.println("Elija la dificultad: ");
+        
+    }
+    public static void ModoDeJuego(){
+        System.out.println("Elija el modo de juego: ");
+    }
+    public static void Regresar(){
+        siguienteMenu=1;
     }
 }
