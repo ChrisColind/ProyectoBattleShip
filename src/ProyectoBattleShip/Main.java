@@ -9,19 +9,35 @@ import java.util.Scanner;
 public class Main {
     
     static int siguienteMenu=0;
+    static int contador=1;
+    static String jugador1;
+    static String jugador2;
     
     static ArrayList<Player> listaUsuarios = new ArrayList<>();
     boolean UsuarioExistente;
     
     public static void main(String[] args) {
-        Scanner n = new Scanner(System.in);
-        int menu=0;
-        int elegir=0;
+        listaUsuarios.add(new Player("car","1"));
+        listaUsuarios.add(new Player("chri","1"));
         
-        while(menu==0){
-            do{
-                Login();
-                elegir = n.nextInt();
+        Login();
+        
+    }
+    
+    //login , PRINCIPAL  =================================================================
+    static void Login(){
+        Scanner n = new Scanner(System.in);
+        int elegir;
+        
+        do{
+            contador=1;
+            System.out.println("===INICIA SESION===");
+            System.out.println("1. Iniciar sesion");
+            System.out.println("2. Crear jugador");
+            System.out.println("3. Salir");
+            System.out.println("\nSeleccione una opcion: ");
+            elegir = n.nextInt();
+            
                 switch(elegir){
                     case 1: IniciarSesion();
                     break;
@@ -33,37 +49,42 @@ public class Main {
                     break;
                 }
             }while(siguienteMenu==0);
-        }
-    }
-    
-    //login , PRINCIPAL  =================================================================
-    static void Login(){
-            System.out.println("===INICIA SESION===");
-            System.out.println("1. Iniciar sesion");
-            System.out.println("2. Crear jugador");
-            System.out.println("3. Salir");
-            System.out.println("\nSeleccione una opcion: ");
     }
     
     //1 , Login , INICIAR SESION
     public static void IniciarSesion(){
         Scanner n = new Scanner(System.in);
-        String contra;
-        String user;
+        String contra = null;
+        String user = null;
         boolean UsuarioEncontrado=false;
         
         while(UsuarioEncontrado==false){
-        System.out.println("Ingrese su usuario: ");
-        user = n.nextLine();
-        
-        System.out.println("Ingrese su contraseña: ");
-        contra = n.nextLine();
-        
+            
+            if(!listaUsuarios.isEmpty()){
+                
+                System.out.println("Ingrese su usuario: ");
+                user = n.nextLine();
+
+                System.out.println("Ingrese su contraseña: ");
+                contra = n.nextLine();
+            }else{
+                
+                System.out.println("No hay ningun usuario registrado.");
+                System.out.println("");
+                Login();
+            }
+            
             for(int x=0 ; x<listaUsuarios.size() ; x++){
                 if(listaUsuarios.get(x).getNombre().equals(user) && listaUsuarios.get(x).getContra().equals(contra)){
                     System.out.println("Ingresado con exito");
+                    
+                     System.out.println(listaUsuarios.size());
+                    if(contador==1){
+                        jugador1=user;
+                        contador++;
+                    }
+                    
                     UsuarioEncontrado=true;
-                    siguienteMenu=1;
                     Menu();
                 }
             }
@@ -72,7 +93,6 @@ public class Main {
                 System.out.println("Usuario o contraseña incorrecta");
             }
         }
-        
     }
     //2 , Login , CREAR JUGADOR
     public static void CrearJugador(){
@@ -107,6 +127,7 @@ public class Main {
         listaUsuarios.add(Pl);
         System.out.println("Se creo con exito el usuario!");
         System.out.println("");
+        System.out.println(listaUsuarios.size());
     }
     //3, login , Salir Juego
     public static void SalirJuego(){
@@ -126,12 +147,13 @@ public class Main {
         System.out.println("3. Reportes");
         System.out.println("4. Mi perfil");
         System.out.println("5. Salir");
+        System.out.println("JUGADOR 1: "+jugador1);
         System.out.println("\nSeleccione una opcion: ");
         elegir = n.nextInt();
         
                 switch(elegir){
                     case 1: 
-                    Jugar();
+                    MenuJugar();
                     break;
                         
                     case 2: 
@@ -154,9 +176,48 @@ public class Main {
             }while(siguienteMenu==0);
     }
     
-    // 1, MENU, JUGAR
+    //MENU DE LOS MENUS ===========================================================================================================================================
+    public static void MenuJugar(){
+        String user;
+        boolean UsuarioExiste=false;
+        Scanner n = new Scanner(System.in);
+        
+        while(!UsuarioExiste){
+            System.out.println("");
+            System.out.println("===MENU JUGAR===");
+            System.out.println("JUGADOR 1: "+jugador1);
+            System.out.println("Escriba el usuario del jugador 2: ");
+            user = n.nextLine();
+            
+            if(user.equals("EXIT")){
+                Menu();
+            }
+            if(user.equals(jugador1)){
+                System.out.println("Este jugador ya esta en uso.");
+            }
+                
+            for(int x=0 ; x<listaUsuarios.size() ; x++){
+                if(listaUsuarios.get(x).getNombre().equals(user)){
+                    jugador2=user;
+                    System.out.println("");
+                    System.out.println("Se encontro el jugador 2");
+                    System.out.println("JUGADOR 2: "+jugador2);
+                    UsuarioExiste=true;
+                    Jugar();
+                    break;
+                    
+                }
+            }
+                if(!UsuarioExiste){
+                    System.out.println("No se encontro el jugador 2");
+                }
+        }
+    }
+    
     public static void Jugar(){
-        System.out.println("En proceso");
+        System.out.println("En progreso");
+        Juego P = new Juego();
+        P.Tablero();
     }
 
     
@@ -168,7 +229,8 @@ public class Main {
         System.out.println("===MENU DE CONFIGURACION===");
         System.out.println("1. Dificultad");
         System.out.println("2. Modo de juego");
-        System.out.println("3. Regresar al Menu principal");
+        System.out.println("3. Regresar al menu principal");
+        System.out.println("JUGADOR 1: "+jugador1);
         System.out.println("\nSeleccione una opcion: ");
         
         do{
@@ -207,6 +269,7 @@ public class Main {
         System.out.println("1. Ultimos 10 juegos");
         System.out.println("2. Ranking de jugadores");
         System.out.println("3. Regresar al menu principal");
+        System.out.println("JUGADOR 1: "+jugador1);
         System.out.println("\nSeleccione una opcion: ");
         do{
                 elegir = n.nextInt();
@@ -242,6 +305,7 @@ public class Main {
         System.out.println("2. Modificar mis datos");
         System.out.println("3. Eleminar cuenta");
         System.out.println("4. Regresar al menu principal");
+        System.out.println("JUGADOR 1: "+jugador1);
         System.out.println("\nSeleccione una opcion: ");
         do{
                 elegir = n.nextInt();

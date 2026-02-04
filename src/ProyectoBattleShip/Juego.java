@@ -24,6 +24,19 @@ public class Juego {
         
     }
     
+    public static void Tablero(){
+        for(int x=0 ; x<Tablero1.length ; x++){
+            for(int y=0 ; y<Tablero1[x].length ; y++){
+                if(Tablero1[x][y]==null){
+                    System.out.print("~ ");
+                }else{
+                System.out.print(Tablero1[x][y]);
+                }
+            }
+            System.out.println();
+        }
+        
+    }
     public static void ColocarBarco(int Jugador, int x1, int x2, int y1, int y2, String barco){
         if(Jugador==1){
             if(x1==x2){
