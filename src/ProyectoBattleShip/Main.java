@@ -18,7 +18,6 @@ public class Main {
         int menu=0;
         int elegir=0;
         
-        
         while(menu==0){
             do{
                 Login();
@@ -34,46 +33,6 @@ public class Main {
                     break;
                 }
             }while(siguienteMenu==0);
-            
-            do{
-                Menu();
-                elegir = n.nextInt();
-                switch(elegir){
-                    case 1: Jugar();
-                    break;
-                        
-                    case 2: Configuracion();
-                    break;
-                    
-                    case 3: Reportes();
-                    break;
-                    
-                    case 4: MiPerfil();
-                    break;
-                    
-                    case 5: Salir();
-                    break;
-                }
-                
-            }while(siguienteMenu==1);
-            
-            do{
-                MenuConfiguracion();
-                elegir = n.nextInt();
-                switch(elegir){
-                    
-                    case 1: Dificultad();
-                    break;
-                        
-                    case 2: ModoDeJuego();
-                    break;
-                    
-                    case 3: Regresar();
-                    break;
-                }
-                
-            }while(siguienteMenu==12);
-            
         }
     }
     
@@ -84,8 +43,8 @@ public class Main {
             System.out.println("2. Crear jugador");
             System.out.println("3. Salir");
             System.out.println("\nSeleccione una opcion: ");
-            
     }
+    
     //1 , Login , INICIAR SESION
     public static void IniciarSesion(){
         Scanner n = new Scanner(System.in);
@@ -105,9 +64,10 @@ public class Main {
                     System.out.println("Ingresado con exito");
                     UsuarioEncontrado=true;
                     siguienteMenu=1;
-                    break;
+                    Menu();
                 }
             }
+            
             if(!UsuarioEncontrado){
                 System.out.println("Usuario o contraseña incorrecta");
             }
@@ -131,7 +91,6 @@ public class Main {
         while(UsuarioExistente){
             UsuarioExistente=false;
             
-            
             for(int x=0 ; x<listaUsuarios.size(); x++){
                 if(listaUsuarios.get(x).getNombre().equals(user)){
                         
@@ -143,9 +102,11 @@ public class Main {
                 }
             }
         }
+        
         Player Pl = new Player(user,contra);
         listaUsuarios.add(Pl);
         System.out.println("Se creo con exito el usuario!");
+        System.out.println("");
     }
     //3, login , Salir Juego
     public static void SalirJuego(){
@@ -154,45 +115,78 @@ public class Main {
     
     //MENU DE INICIO ==================================================================================
     static void Menu(){
-        System.out.println("===MENU DE INICIO==");
+        
+            int elegir;
+            Scanner n = new Scanner(System.in);
+        do{
+        System.out.println("");
+        System.out.println("===MENU DE INICIO===");
         System.out.println("1. Jugar");
         System.out.println("2. Configuracion");
         System.out.println("3. Reportes");
-        System.out.println("4. Mi Perfil");
+        System.out.println("4. Mi perfil");
         System.out.println("5. Salir");
         System.out.println("\nSeleccione una opcion: ");
+        elegir = n.nextInt();
+        
+                switch(elegir){
+                    case 1: 
+                    Jugar();
+                    break;
+                        
+                    case 2: 
+                    MenuConfiguracion();
+                    break;
+                    
+                    case 3: 
+                    MenuReportes();
+                    break;
+                    
+                    case 4: 
+                    MenuMiPerfil();
+                    break;
+                    
+                    case 5: 
+                    Login();
+                    break;
+                }
+                
+            }while(siguienteMenu==0);
     }
     
     // 1, MENU, JUGAR
     public static void Jugar(){
-        
+        System.out.println("En proceso");
     }
-    
-    public static void Configuracion(){
-        siguienteMenu=12;
-        
-    }
-    
-    public static void Reportes(){
-        
-    }
-    
-    public static void MiPerfil(){
-        
-    }
-    
-    public static void Salir(){
-        siguienteMenu=0;
-        System.out.println(siguienteMenu);
-    }
+
     
     //MENU DE LOS MENUS ================================================
     static void MenuConfiguracion(){
+        int elegir;
+        Scanner n = new Scanner(System.in);
+        System.out.println("");
         System.out.println("===MENU DE CONFIGURACION===");
         System.out.println("1. Dificultad");
         System.out.println("2. Modo de juego");
         System.out.println("3. Regresar al Menu principal");
         System.out.println("\nSeleccione una opcion: ");
+        
+        do{
+                elegir = n.nextInt();
+                switch(elegir){
+                    
+                    case 1: Dificultad();
+                    break;
+                        
+                    case 2: ModoDeJuego();
+                    break;
+                    
+                    case 3: Menu();
+                    break;
+                }
+                
+            }while(siguienteMenu==0);
+            
     }
     
     public static void Dificultad(){
@@ -202,7 +196,84 @@ public class Main {
     public static void ModoDeJuego(){
         System.out.println("Elija el modo de juego: ");
     }
-    public static void Regresar(){
-        siguienteMenu=1;
+    
+    
+    //MENU DE LOS MENUS 2 ==================================================
+    static void MenuReportes(){
+        int elegir;
+        Scanner n = new Scanner(System.in);
+        System.out.println("");
+        System.out.println("===MENU DE Reportes===");
+        System.out.println("1. Ultimos 10 juegos");
+        System.out.println("2. Ranking de jugadores");
+        System.out.println("3. Regresar al menu principal");
+        System.out.println("\nSeleccione una opcion: ");
+        do{
+                elegir = n.nextInt();
+                switch(elegir){
+                    
+                    case 1: UltimosJuegos();
+                    break;
+                        
+                    case 2: Ranking();
+                    break;
+                    
+                    case 3: Menu();
+                    break;
+                }
+                
+            }while(siguienteMenu==0);
     }
+    public static void UltimosJuegos(){
+        
+    }
+    
+    public static void Ranking(){
+        
+    }
+    
+    //MENU DE LOS MENUS 3 ==================================================
+    static void MenuMiPerfil(){
+        int elegir;
+        Scanner n = new Scanner(System.in);
+        System.out.println("");
+        System.out.println("===MENU DE Reportes===");
+        System.out.println("1. Ver mis datos");
+        System.out.println("2. Modificar mis datos");
+        System.out.println("3. Eleminar cuenta");
+        System.out.println("4. Regresar al menu principal");
+        System.out.println("\nSeleccione una opcion: ");
+        do{
+                elegir = n.nextInt();
+                switch(elegir){
+                    
+                    case 1: VerDatos();
+                    break;
+                        
+                    case 2: ModificarDatos();
+                    break;
+                    
+                    case 3: EleminarCuenta();
+                    break;
+                    
+                    case 4: Menu();
+                    break;
+                }
+                
+            }while(siguienteMenu==0);
+    }
+    public static void VerDatos(){
+        
+    }
+    
+    public static void ModificarDatos(){
+        
+    }
+    
+    public static void EleminarCuenta(){
+        
+    }
+    
+    
+    
 }
