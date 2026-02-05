@@ -19,7 +19,6 @@ public class Main {
     public static void main(String[] args) {
         listaUsuarios.add(new Player("car","1"));
         listaUsuarios.add(new Player("chri","1"));
-        
         Login();
         
     }
@@ -94,6 +93,7 @@ public class Main {
             }
         }
     }
+    
     //2 , Login , CREAR JUGADOR
     public static void CrearJugador(){
         Scanner n = new Scanner(System.in);
@@ -127,7 +127,6 @@ public class Main {
         listaUsuarios.add(Pl);
         System.out.println("Se creo con exito el usuario!");
         System.out.println("");
-        System.out.println(listaUsuarios.size());
     }
     //3, login , Salir Juego
     public static void SalirJuego(){
