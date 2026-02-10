@@ -7,13 +7,13 @@ package ProyectoBattleShip;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.Timer;
-public class Main {
+public class MenusDelJuego {
     
     static int siguienteMenu=0;
     static int contador=1;
     static String jugador1;
     static String jugador2;
-    static String jugadorIniciado;
+    static int indice1;  
     static ArrayList<Player> listaUsuarios = new ArrayList<>();
     boolean UsuarioExistente;
     
@@ -77,9 +77,10 @@ public class Main {
             for(int x=0 ; x<listaUsuarios.size() ; x++){
                 if(listaUsuarios.get(x).getNombre().equals(user) && listaUsuarios.get(x).getContra().equals(contra)){
                     System.out.println("Ingresado con exito");
-                     System.out.println(listaUsuarios.size());
+                     
                     if(contador==1){
                         jugador1=user;
+                        indice1=x;
                         contador++;
                     }
                     
@@ -191,6 +192,7 @@ public class Main {
             if(user.equals("EXIT")){
                 Menu();
             }
+            
             if(user.equals(jugador1)){
                 System.out.println("Este jugador ya esta en uso.");
             }
@@ -214,7 +216,6 @@ public class Main {
     }
     
     public static void Jugar(){
-        System.out.println("En progreso");
         Juego P = new Juego();
         P.Tablero();
     }
@@ -330,22 +331,24 @@ public class Main {
     }
     
     public static void ModificarDatos(){
+        Scanner n = new Scanner(System.in);
+        String cambiar;
         
-        System.out.println("Desea cambiar su usuario o su contrase;a? (u o c)");
+        System.out.println("Desea cambiar su usuario o su contraseña? (u o c)");
+        cambiar = n.nextLine();
+        if(cambiar.equalsIgnoreCase("u")){
+            System.out.println("Elija el nuevo usuario: ");
+            
+        }else{
+            System.out.println("Elija la nueva contraseña: ");
+            
+        }
         
     }
     
     public static void EliminarCuenta(){
         Scanner n = new Scanner(System.in);
         String decidir;
-        int indice=0;
-        
-        for(int x=0 ; x<listaUsuarios.size() ; x++){
-            if(listaUsuarios.get(x).getNombre().equals(jugador1)){
-                x=indice;   
-               System.out.println(indice);    
-            }
-        }
         
         System.out.println("Desea eliminar la cuenta logeada (si o no)?");
         System.out.println("cuenta logeada: "+jugador1);
@@ -357,10 +360,11 @@ public class Main {
             decidir=n.nextLine();
             
             if(decidir.equalsIgnoreCase("si")){
-                listaUsuarios.remove(indice);
+                listaUsuarios.remove(indice1);
                 System.out.println("Se elemino la cuenta.");
                 Login();
                 System.out.println("");
+                
             }else{
                 MenuMiPerfil();
             }
