@@ -170,7 +170,6 @@ public class MenusDelJuego {
                     
                     case 5: 
                     Login();
-                    break;
                 }
                 
             }while(siguienteMenu==0);
@@ -244,7 +243,6 @@ public class MenusDelJuego {
                     break;
                     
                     case 3: Menu();
-                    break;
                 }
                 
             }while(siguienteMenu==0);
@@ -252,11 +250,73 @@ public class MenusDelJuego {
     }
     
     public static void Dificultad(){
-        System.out.println("Elija la dificultad: ");
+        Scanner n = new Scanner(System.in);
+        int opcion;
+        int dificultad = 0;
+        boolean opcionCorrecta=false;
         
+        while(!opcionCorrecta){
+            System.out.println("1. EASY (5 barcos)");
+            System.out.println("2. NORMAL (4 barcos)");
+            System.out.println("3. EXPERT (2 barcos)");
+            System.out.println("4. GENIUS (1 barco)");
+            System.out.println("Elija la dificultad: ");
+            opcion = n.nextInt();
+            
+        switch(opcion){
+            case 1: dificultad = 5;
+            break;
+            
+            case 2: dificultad = 4;
+            break;
+            
+            case 3: dificultad = 2;
+            break;
+            
+            case 4: dificultad = 1;
+            break;
+        }
+            if(opcion<=4 && opcion>0){
+                Juego.Dificultad = opcion;
+                System.out.println("Dificultad actualizada");
+                /*Juego.registrarResultado("", "", dificultad);*/
+                opcionCorrecta=true;
+            }else{
+                System.out.println("Elija una opcion correcta.");
+                opcionCorrecta=false;
+            }
+            
+        }
+        MenuConfiguracion();
     }
-    public static void ModoDeJuego(){
-        System.out.println("Elija el modo de juego: ");
+    
+    public static void ModoDeJuego() {
+        Scanner n = new Scanner(System.in);
+        
+        int opcion;
+        String modoJuego;
+        
+        System.out.println("\n===SELECCIONAR MODO DE JUEGO===");
+        System.out.println("1. ARCADE (Barcos enemigos ocultos)");
+        System.out.println("2. TUTORIAL (Barcos enemigos visibles)");
+        System.out.println("3. Regresar");
+        System.out.print("Seleccione una opcion: ");
+
+        opcion = n.nextInt();
+
+        switch(opcion) {
+            case 1: modoJuego = "ARCADE";
+                System.out.println("Modo cambiado a: ARCADE");
+                break;
+                
+            case 2: modoJuego = "TUTORIAL";
+                System.out.println("Modo cambiado a: TUTORIAL");
+                break;
+                
+            case 3: MenuConfiguracion();
+                break;
+        }
+        MenuConfiguracion();
     }
     
     
@@ -264,8 +324,8 @@ public class MenusDelJuego {
     static void MenuReportes(){
         int elegir;
         Scanner n = new Scanner(System.in);
-        System.out.println("");
-        System.out.println("===MENU DE Reportes===");
+        
+        System.out.println("\n===MENU DE Reportes===");
         System.out.println("1. Ultimos 10 juegos");
         System.out.println("2. Ranking de jugadores");
         System.out.println("3. Regresar al menu principal");
@@ -282,13 +342,33 @@ public class MenusDelJuego {
                     break;
                     
                     case 3: Menu();
-                    break;
                 }
                 
             }while(siguienteMenu==0);
     }
-    public static void UltimosJuegos(){
-        
+    public static void UltimosJuegos() {
+        Scanner n = new Scanner(System.in);
+        System.out.println("\n===ULTIMOS 10 JUEGOS===");
+        ArrayList<String> historial = listaUsuarios.get(indice1).getLog();
+
+        if (historial == null || historial.isEmpty()) {
+            System.out.println("No hay juegos registrados aun");
+        }else{
+            int contadorMostrados = 1;
+            
+            for (int i = historial.size() - 1; i >= 0; i--) {
+                System.out.println(contadorMostrados + "- " + historial.get(i));
+
+                if (contadorMostrados == 10) {
+                    break;
+                }
+                contadorMostrados++;
+            }
+        }
+
+        System.out.println("\nPresione Enter para regresar al menu de reportes");
+        n.nextLine(); 
+        MenuReportes();
     }
     
     public static void Ranking(){
@@ -300,7 +380,7 @@ public class MenusDelJuego {
         int elegir;
         Scanner n = new Scanner(System.in);
         System.out.println("");
-        System.out.println("===MENU DE Reportes===");
+        System.out.println("===MENU DE MI PERFIL===");
         System.out.println("1. Ver mis datos");
         System.out.println("2. Modificar mis datos");
         System.out.println("3. Eleminar cuenta");
@@ -321,59 +401,104 @@ public class MenusDelJuego {
                     break;
                     
                     case 4: Menu();
-                    break;
                 }
                 
             }while(siguienteMenu==0);
     }
     public static void VerDatos(){
-        
+        Scanner n = new Scanner(System.in);
+        Player p = listaUsuarios.get(indice1);
+        System.out.println("Nombre: " + p.getNombre() + " Puntos: " + p.getPuntos());
+        System.out.println("\nPresione Enter para regresar al menu de reportes");
+        n.nextLine(); 
+        MenuMiPerfil();
     }
     
     public static void ModificarDatos(){
         Scanner n = new Scanner(System.in);
         String cambiar;
+        String contra;
+        String NuevoNombre;
+        boolean SeCambio=false;
+        boolean existe;
         
         System.out.println("Desea cambiar su usuario o su contraseña? (u o c)");
         cambiar = n.nextLine();
-        if(cambiar.equalsIgnoreCase("u")){
-            System.out.println("Elija el nuevo usuario: ");
-            
-        }else{
-            System.out.println("Elija la nueva contraseña: ");
-            
-        }
         
+        
+        while(!SeCambio){
+            if(cambiar.equalsIgnoreCase("u")){
+                System.out.println("Elija el nuevo usuario: ");
+                NuevoNombre = n.nextLine();
+                existe=false;
+                        
+                for(Player p : listaUsuarios){
+                    if(p.getNombre().equals(NuevoNombre)){
+                        existe = true;
+                    }
+                }
+                
+                if(existe){
+                    System.out.println("Este usuario ya existe.");
+                }else{
+                    listaUsuarios.get(indice1).SetNombre(NuevoNombre);
+                    jugador1 = NuevoNombre;
+                    System.out.println("Usuario cambiado");
+                    SeCambio=true;
+                }
+                
+            }else if(cambiar.equalsIgnoreCase("c")){
+                System.out.println("Elija la nueva contraseña: ");
+                contra = n.nextLine();
+                listaUsuarios.get(indice1).SetContra(contra);
+                System.out.println("Contraseña cambiada con exito");
+                SeCambio=true;
+                
+            }else{
+                System.out.println("Opcion invalida. Escriba u(para cambiar usuario) o c(para cambiar contraseña)");
+                cambiar = n.nextLine();
+            }
+        }
+        MenuMiPerfil();
     }
     
     public static void EliminarCuenta(){
         Scanner n = new Scanner(System.in);
         String decidir;
+        boolean Elemino=false;
         
         System.out.println("Desea eliminar la cuenta logeada (si o no)?");
         System.out.println("cuenta logeada: "+jugador1);
         decidir=n.nextLine();
         
-        if(decidir.equalsIgnoreCase("si")){
-            System.out.println("Esta segur@ de eliminar su cuenta (si o no)?");
-            System.out.println("cuenta logeada: "+jugador1);
-            decidir=n.nextLine();
-            
+        while(!Elemino){
+
             if(decidir.equalsIgnoreCase("si")){
-                listaUsuarios.remove(indice1);
-                System.out.println("Se elemino la cuenta.");
-                Login();
-                System.out.println("");
+                System.out.println("Esta segur@ de eliminar su cuenta (si o no)?");
+                System.out.println("cuenta logeada: "+jugador1);
+                decidir=n.nextLine();
+
+                if(decidir.equalsIgnoreCase("si")){
+                    listaUsuarios.remove(indice1);
+                    System.out.println("Se elemino la cuenta.");
+                    Elemino=true;
+
+                }else if(decidir.equalsIgnoreCase("no")){
+                    Elemino=true;
+                }else{
+                    System.out.println("Escriba si(para eliminar la cuenta) o no(para no eliminarla)");
+                    decidir=n.nextLine();
+                }
                 
+            }else if(decidir.equalsIgnoreCase("no")){
+                Elemino=true;
+
             }else{
-                MenuMiPerfil();
+                System.out.println("Escriba si(para eliminar la cuenta) o no(para no eliminarla)");
+                decidir=n.nextLine();
             }
-        }else{
-            MenuMiPerfil();
         }
-            
+        Login();
     }
-    
-    
     
 }

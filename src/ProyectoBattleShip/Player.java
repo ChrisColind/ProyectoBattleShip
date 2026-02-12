@@ -50,4 +50,12 @@ public class Player {
         
         return contra;
     }
+    public void SetContra(String contra){
+        
+        this.contra = contra;
+    }
+    public void SetNombre(String nombre){
+        
+        this.nombre = nombre;
+    }
 }
