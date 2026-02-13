@@ -18,7 +18,8 @@ public class Player {
     public Player(String nombre, String contra){
         this.nombre = nombre;
         this.contra = contra;
-        
+        this.puntos = 0;
+        this.log = new ArrayList<>(); 
     }
     
     public void SetLog(String Registro){ //Guarda el log
@@ -37,7 +38,7 @@ public class Player {
         return log;
     }
     
-    public void SetPuntos(int puntos){ //Guarda puntos de cada jugador
+    public void SumarPuntos(int puntos){ //Guarda puntos de cada jugador
         this.puntos += puntos;
         
     }

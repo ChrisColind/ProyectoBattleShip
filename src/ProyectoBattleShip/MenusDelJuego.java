@@ -18,8 +18,7 @@ public class MenusDelJuego {
     boolean UsuarioExistente;
     
     public static void main(String[] args) {
-        listaUsuarios.add(new Player("car","1"));
-        listaUsuarios.add(new Player("chri","1"));
+        
         Login();
         
     }
@@ -213,12 +212,115 @@ public class MenusDelJuego {
                 }
         }
     }
-    
-    public static void Jugar(){
-        Juego P = new Juego();
-        P.Tablero();
-    }
+        public static void crearEspacio() {
+            for (int i = 0; i < 50; i++) {
+                System.out.println();
+            }
+        }
+        public static void Jugar() {
+            Scanner n = new Scanner(System.in);
+            int fila;
+            int columna;
+            int cantidadBarcos;
+            Juego.vaciarTableros();
+            
+            cantidadBarcos = (Juego.Dificultad == 1) ? 5 : (Juego.Dificultad == 3) ? 2 : (Juego.Dificultad == 4) ? 1 : 4;
 
+            System.out.println("\n--- " + jugador1 + ", COLOCA TUS BARCOS ---");
+            MenuParaColocar(1, cantidadBarcos);
+
+            System.out.println("--- " + jugador2 + ", COLOCA TUS BARCOS ---");
+            MenuParaColocar(2, cantidadBarcos);
+
+            boolean hayGanador = false;
+            int turnoActual = 1;
+
+            while(!hayGanador){
+                int tableroEnemigo;
+                String atacante;
+                String victima;
+                
+                atacante = (turnoActual == 1) ? jugador1 : jugador2;
+                victima = (turnoActual == 1) ? jugador2 : jugador1;
+                tableroEnemigo = (turnoActual == 1) ? 2 : 1;
+
+                System.out.println("\nTURNO DE: " + atacante);
+                System.out.println("Tablero de " + victima + ":");
+                Juego.imprimirTablero(tableroEnemigo, false);
+
+                System.out.print("Fila a bombardear (-1 para salir): ");
+                fila = n.nextInt();
+                
+                System.out.print("Columna a bombardear (-1 para salir): ");
+                columna = n.nextInt();
+                
+                if(columna==-1){
+                    System.out.println(atacante + " se ha retirado. " + victima + " gana");
+                    hayGanador = true;
+                    break;
+                }
+                
+                if (fila==-1){
+                    System.out.println(atacante + " se ha retirado." + victima + " gana");
+                    hayGanador = true;
+                    break;
+                }
+                
+                int oponente = (turnoActual == 1) ? 2 : 1; //condicion ? (si es verdadero) : (si es falso)
+                if(!Juego.BuscarBarcos(oponente)){
+                    System.out.println("\n================================");
+                    System.out.println("JUGADOR: "+atacante+" HA GANADO.");
+                    System.out.println("================================");
+                    
+                    listaUsuarios.get(indice1).SetLog("Ganó contra " + victima);
+                    listaUsuarios.get(indice1).SumarPuntos(3); // 3 puntos por ganar
+                    break;
+                }
+            }
+    }
+        
+        public static void MenuParaColocar(int jugador, int limite){
+            Scanner n = new Scanner(System.in);
+            String tipo = null;
+            char rotacion;
+            int columna;
+            int fila;
+            boolean codigoValido=false;
+            
+        for(int i = 0; i < limite; i++){
+            Juego.imprimirTablero(jugador, true); 
+            System.out.println("Colocando barco " + (i + 1) + "/" + limite);
+                
+            while(!codigoValido){
+                System.out.println("Ingrese Codigo (PA, AZ, SM, DT): ");
+                tipo = n.next().toUpperCase();
+
+                if (tipo.equals("PA") || tipo.equals("AZ") || tipo.equals("SM") || tipo.equals("DT")) {
+                    codigoValido = true;
+                    
+                }else{
+                    System.out.println("Solo se permite: PA, AZ, SM, DT.");
+                }
+            }
+            
+            System.out.println("Fila inicial: ");
+            fila = n.nextInt();
+            
+            System.out.println("Columna inicial: ");
+            columna = n.nextInt();
+            
+            System.out.println("(H) para horizontal, (V) para vertical: ");
+            rotacion = n.next().toUpperCase().charAt(0);
+
+            if(Juego.puedeColocar(jugador, fila, columna, tipo, rotacion)){
+                Juego.ColocarBarco(jugador, fila, columna, tipo, rotacion);
+                crearEspacio();
+            }else{
+                System.out.println("Posicion ocupada o fuera de limites. Intenta de nuevo.");
+                i--; //repetir este barco
+            }
+        }
+    }
     
     //MENU DE LOS MENUS ================================================
     static void MenuConfiguracion(){
@@ -252,7 +354,6 @@ public class MenusDelJuego {
     public static void Dificultad(){
         Scanner n = new Scanner(System.in);
         int opcion;
-        int dificultad = 0;
         boolean opcionCorrecta=false;
         
         while(!opcionCorrecta){
@@ -263,23 +364,9 @@ public class MenusDelJuego {
             System.out.println("Elija la dificultad: ");
             opcion = n.nextInt();
             
-        switch(opcion){
-            case 1: dificultad = 5;
-            break;
-            
-            case 2: dificultad = 4;
-            break;
-            
-            case 3: dificultad = 2;
-            break;
-            
-            case 4: dificultad = 1;
-            break;
-        }
             if(opcion<=4 && opcion>0){
                 Juego.Dificultad = opcion;
                 System.out.println("Dificultad actualizada");
-                /*Juego.registrarResultado("", "", dificultad);*/
                 opcionCorrecta=true;
             }else{
                 System.out.println("Elija una opcion correcta.");
@@ -294,7 +381,6 @@ public class MenusDelJuego {
         Scanner n = new Scanner(System.in);
         
         int opcion;
-        String modoJuego;
         
         System.out.println("\n===SELECCIONAR MODO DE JUEGO===");
         System.out.println("1. ARCADE (Barcos enemigos ocultos)");
@@ -305,11 +391,11 @@ public class MenusDelJuego {
         opcion = n.nextInt();
 
         switch(opcion) {
-            case 1: modoJuego = "ARCADE";
+            case 1: Juego.modoActual = "ARCADE";
                 System.out.println("Modo cambiado a: ARCADE");
                 break;
                 
-            case 2: modoJuego = "TUTORIAL";
+            case 2: Juego.modoActual = "TUTORIAL";
                 System.out.println("Modo cambiado a: TUTORIAL");
                 break;
                 
