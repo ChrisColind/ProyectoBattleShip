@@ -4,16 +4,15 @@
  * and open the template in the editor.
  */
 package ProyectoBattleShip;
-
+import static ProyectoBattleShip.MenusDelJuego.listaUsuarios;
 import java.util.ArrayList;
-import java.util.logging.Level;
-
 public class Player {
     private String nombre; 
     private String contra;
     private int puntos=0;
     private ArrayList<String> log;
-    
+    private int contadorLogs=0;
+    private String[] historial=new String[10];
     
     public Player(String nombre, String contra){
         this.nombre = nombre;
@@ -22,10 +21,33 @@ public class Player {
         this.log = new ArrayList<>(); 
     }
     
-    public void SetLog(String Registro){ //Guarda el log
+    public void SaveLog(String Registro){
+        for(int x=9; x>0; x--){
+            historial[x] = historial[x-1];
+        }
         
-        this.log.add(Registro);
+        historial[0] = Registro;
+    }
+    
+    public String[] getLogs(){ 
         
+        return historial;
+    }
+    
+    public void SetLog(String frase){
+        if(contadorLogs<10){
+            historial[contadorLogs]=frase;
+            contadorLogs++;
+        }else{
+            for(int i=0; i<9; i++){
+                historial[i]=historial[i+1];
+            }
+            historial[9]=frase;
+        }
+    }
+    
+    public String[] getHistorial(){
+        return historial;
     }
     
     public int getPuntos(){
@@ -58,5 +80,17 @@ public class Player {
     public void SetNombre(String nombre){
         
         this.nombre = nombre;
+    }
+    
+    public static int obtenerIndice(String nombre){
+        int resultado =-1;
+        for(int x=0; x<listaUsuarios.size(); x++){
+            if(listaUsuarios.get(x).getNombre().equals(nombre)){
+                resultado = x;
+                break;
+            }
+        }
+        
+        return resultado;
     }
 }
