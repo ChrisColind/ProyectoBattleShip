@@ -15,9 +15,10 @@ public class Juego {
     static String jugador2 = MenusDelJuego.jugador2;
     
     static int cantidadBarco;
-    static int Dificultad=4;
+    static int Dificultad;
     static int barcosP1;
     static int barcosP2;
+    
     
     static String modoActual = "TUTORIAL";
     
@@ -126,16 +127,15 @@ public class Juego {
         int oponente = (atacante==1) ? 2 : 1;
         String[][] DireccionBomba = (atacante==1) ? Tablero2 : Tablero1;
         String celda = DireccionBomba[fila][columna];
-
+        
+        
         if(!celda.equals("~") && !celda.equals(" X") && !celda.equals(" F")){
-            DireccionBomba[fila][columna] = " X";  // SIN ESPACIOS
+            DireccionBomba[fila][columna] = " X";  
             RegenerarTablero(oponente);
-            System.out.println("LE DISTE");
             return true;
 
         }else{
-            DireccionBomba[fila][columna] = " F";  // SIN ESPACIOS
-            System.out.println("FALLASTE");
+            DireccionBomba[fila][columna] = " F";  
             return false;
         }
     }
@@ -288,7 +288,6 @@ public class Juego {
             frase=ganador+" hundio todos los barcos de "+perdedor+" en modo "+modoTexto+".";
         }
 
-        // Guardamos en el objeto Player de la lista global
         int indiceGanador=Player.obtenerIndice(ganador);
         int indicePerdedor=Player.obtenerIndice(perdedor);
 
@@ -348,15 +347,12 @@ public class Juego {
             for(y=0; y<8; y++){
                 CeldaP2 = TableroP2[x][y];
 
-                // X y F siempre se muestran
                 if(CeldaP2.equals("X") || CeldaP2.equals("F")){
                     System.out.print(" " + CeldaP2 + " ");
                 }
-                // En ARCADE ocultar barcos enemigos
                 else if(modoActual.equals("ARCADE")){
                     System.out.print(" ~ ");
                 }
-                // En TUTORIAL mostrar todo
                 else{
                     System.out.print(CeldaP2.equals("~") ? " ~ " : CeldaP2 + " ");
                 }

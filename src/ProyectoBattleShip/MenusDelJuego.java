@@ -241,113 +241,123 @@ public class MenusDelJuego {
     
     //1 , Menu , MENU JUGAR, el juego en si
     public static void Jugar(){
-        Scanner n = new Scanner(System.in);
+    Scanner n = new Scanner(System.in);
+    
+    int turno = 1;
+    int oponente;
+    int fila = 0;
+    int columna = 0;
+    int IndiceDelGanador;
 
-        int turno = 1;
-        int oponente;
-        int fila = 0;
-        int columna = 0;
-        int IndiceDelGanador;
+    boolean fin = false;
+    String atacante;
+    String ganador = "";
+    String perdedor = "";
+    String confirmacion;
+    String mensajeAnterior = "";
+    
+    while(!fin){
+        try{
+            atacante = (turno==1) ? jugador1 : jugador2;
+            oponente = (turno==1) ? 2 : 1;
 
-        boolean fin = false;
-        String atacante;
-        String ganador = "";
-        String perdedor = "";
-        String confirmacion;
+            Juego.LimpiarRastros(oponente);
+            System.out.println("\n------------------------------");
+            System.out.println("TURNO DE: " + atacante.toUpperCase());
+            System.out.println("BARCOS ENEMIGOS RESTANTES: " + Juego.ContarBarcosRestantes(oponente));
+            
+            if(!mensajeAnterior.equals("")){
+                System.out.println(mensajeAnterior);
+            }
 
-        while(!fin){
-            try{
-                atacante = (turno==1) ? jugador1 : jugador2;
-                oponente = (turno==1) ? 2 : 1;
+            Juego.imprimirPantallaDeJuego(turno);
 
-                Juego.LimpiarRastros(oponente);
-                System.out.println("\n==========================================");
-                System.out.println("TURNO DE: " + atacante.toUpperCase());
-                System.out.println("BARCOS ENEMIGOS RESTANTES: " + Juego.ContarBarcosRestantes(oponente));
+            System.out.println("Ingrese fila para atacar (0-7 o -1 para salir):");
+            fila = n.nextInt();
 
-                Juego.imprimirPantallaDeJuego(turno);
-
-                System.out.println("Ingrese fila para atacar (0-7 o -1 para salir):");
-                fila = n.nextInt();
-
-                if(fila==-1){ 
-                    System.out.println("Esta seguro que desea retirarse? (si o no)");
-                    n.nextLine();
-                    confirmacion = n.nextLine();
-
-                    if(confirmacion.equalsIgnoreCase("si")){
-                        ganador = (turno==1) ? jugador2 : jugador1;
-                        perdedor = atacante;
-                        System.out.println(ganador + " GANA POR RETIRO DE " + perdedor);
-
-                        IndiceDelGanador = (turno==1) ? Player.obtenerIndice(jugador2) : indice1;
-                        listaUsuarios.get(IndiceDelGanador).SumarPuntos(3);
-
-                        Juego.RegistrarJuegos(ganador, perdedor, true);
-                        fin = true;
-                        continue;  
-                    }else{
-                        continue;
-                    }
-                }
-
-                if(fila < 0 || fila > 7){
-                    System.out.println("Fila invalida.");
-                    continue;
-                }
-
-                System.out.println("Ingrese columna para atacar (0-7 o -1 para salir):");
-                columna = n.nextInt();
-
-                if(columna == -1){
-                    System.out.println("Esta seguro que desea retirarse? (si o no)");
-                    n.nextLine();
-                    confirmacion = n.nextLine();
-
-                    if(confirmacion.equalsIgnoreCase("si")){
-                        ganador = (turno==1) ? jugador2 : jugador1;
-                        perdedor = atacante;
-                        System.out.println(ganador + " GANA POR RETIRO DE " + perdedor);
-
-                        IndiceDelGanador = (turno==1) ? Player.obtenerIndice(jugador2) : indice1;
-                        listaUsuarios.get(IndiceDelGanador).SumarPuntos(3);
-
-                        Juego.RegistrarJuegos(ganador, perdedor, true);
-                        fin = true;
-                        continue;  
-                    }else{
-                        continue;
-                    }
-                }
-
-                if(columna < 0 || columna > 7){
-                    System.out.println("Columna invalida.");
-                    continue;
-                }
-
-                if(Juego.Bombardear(turno, fila, columna)){
-                    if(Juego.ContarBarcosRestantes(oponente)==0){
-                        ganador = atacante;
-                        perdedor = (turno==1) ? jugador2 : jugador1;
-
-                        System.out.println("VICTORIA PARA " + ganador);
-                        IndiceDelGanador = (turno==1) ? indice1 : Player.obtenerIndice(jugador2);
-                        listaUsuarios.get(IndiceDelGanador).SumarPuntos(3);
-
-                        Juego.RegistrarJuegos(ganador, perdedor, false);
-                        fin = true;
-                    }
-                }else{
-                    turno = (turno==1) ? 2 : 1;
-                }
-
-            }catch(Exception e){
-                System.out.println("Entrada invalida. Por favor ingrese un numero.");
+            if(fila==-1){ 
+                System.out.println("Esta seguro que desea retirarse? (si o no)");
                 n.nextLine();
+                confirmacion = n.nextLine();
+
+                if(confirmacion.equalsIgnoreCase("si")){
+                    ganador = (turno==1) ? jugador2 : jugador1;
+                    perdedor = atacante;
+                    System.out.println(ganador + " GANA POR RETIRO DE " + perdedor);
+
+                    IndiceDelGanador = (turno==1) ? Player.obtenerIndice(jugador2) : indice1;
+                    listaUsuarios.get(IndiceDelGanador).SumarPuntos(3);
+
+                    Juego.RegistrarJuegos(ganador, perdedor, true);
+                    fin = true;
+                    continue;
+                }else{
+                    continue;
+                }
+            }
+
+            if(fila < 0 || fila > 7){
+                System.out.println("Fila invalida.");
                 continue;
             }
+
+            System.out.println("Ingrese columna para atacar (0-7 o -1 para salir):");
+            columna = n.nextInt();
+
+            if(columna == -1){
+                System.out.println("Esta seguro que desea retirarse? (si o no)");
+                n.nextLine();
+                confirmacion = n.nextLine();
+
+                if(confirmacion.equalsIgnoreCase("si")){
+                    ganador = (turno==1) ? jugador2 : jugador1;
+                    perdedor = atacante;
+                    System.out.println(ganador + " GANA POR RETIRO DE " + perdedor);
+
+                    IndiceDelGanador = (turno==1) ? Player.obtenerIndice(jugador2) : indice1;
+                    listaUsuarios.get(IndiceDelGanador).SumarPuntos(3);
+
+                    Juego.RegistrarJuegos(ganador, perdedor, true);
+                    fin = true;
+                    continue;
+                }else{
+                    continue;
+                }
+            }
+
+            if(columna < 0 || columna > 7){
+                System.out.println("Columna invalida.");
+                continue;
+            }
+
+            boolean acierto = Juego.Bombardear(turno, fila, columna);
+            
+            if(acierto){
+                mensajeAnterior = "***" + atacante.toUpperCase() + " LE DIO A UN BARCO***";
+                
+                if(Juego.ContarBarcosRestantes(oponente)==0){
+                    ganador = atacante;
+                    perdedor = (turno==1) ? jugador2 : jugador1;
+
+                    System.out.println("VICTORIA PARA " + ganador);
+                    IndiceDelGanador = (turno==1) ? indice1 : Player.obtenerIndice(jugador2);
+                    listaUsuarios.get(IndiceDelGanador).SumarPuntos(3);
+
+                    Juego.RegistrarJuegos(ganador, perdedor, false);
+                    fin = true;
+                }
+            }else{
+                mensajeAnterior = "***" + atacante.toUpperCase() + " FALLO EL TIRO***";
+                turno = (turno==1) ? 2 : 1;
+            }
+
+        }catch(Exception e){
+            System.out.println("Entrada invalida. Por favor ingrese un numero.");
+            n.nextLine();
+            continue;
         }
     }
+}
     
     //2 , Menu , MENU JUGAR, Menu para colocar barcos
     public static void MenuParaColocar(int jugador, int limite){ 
@@ -516,7 +526,7 @@ public class MenusDelJuego {
         System.out.println("1. ARCADE (Barcos enemigos ocultos)");
         System.out.println("2. TUTORIAL (Barcos enemigos visibles)");
         System.out.println("3. Regresar");
-        System.out.print("Seleccione una opcion: ");
+        System.out.println("\nSeleccione una opcion: ");
 
         opcion = n.nextInt();
 
@@ -603,7 +613,7 @@ public class MenusDelJuego {
         System.out.println("\n===RANKING DE PUNTOS===");
         for(int x=0; x<listaUsuarios.size(); x++){
             System.out.println((x+1) + ". " + listaUsuarios.get(x).getNombre() + " - " + listaUsuarios.get(x).getPuntos() + " pts");
-            System.out.println("Presione (S) para salir");
+            System.out.println("Ingrese (S) para salir");
             salir = n.nextLine().toUpperCase();
         
             if(salir.equals("S")){
