@@ -185,7 +185,7 @@ public class MenusDelJuego {
             System.out.println("===MENU JUGAR===");
             System.out.println("JUGADOR 1: "+jugador1);
             System.out.println("Escriba el usuario del jugador 2 (o EXIT para salir): ");
-            user = n.nextLine();
+            user = n.nextLine().toUpperCase();
 
             if(user.equals("EXIT")){
                 Menu();
