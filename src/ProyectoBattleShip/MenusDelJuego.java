@@ -206,18 +206,8 @@ public class MenusDelJuego {
                     Juego.jugador2 = MenusDelJuego.jugador2;
                     Juego.vaciarTableros(); 
 
-                    int limiteBarcos = 4; 
-                    if(Juego.Dificultad==1){
-                        limiteBarcos=5;
-                    }
+                    int limiteBarcos = Juego.dificultadActual.getCantidadBarcos();
                     
-                    if(Juego.Dificultad==3){
-                        limiteBarcos=2;
-                    }
-                    
-                    if(Juego.Dificultad==4){
-                        limiteBarcos=1;
-                    }
 
                     System.out.println("Jugador 1 coloca tus barcos");
                     MenuParaColocar(1, limiteBarcos);
@@ -396,7 +386,7 @@ public class MenusDelJuego {
                     }
 
                     if(Juego.barcoYaExiste(jugador, tipo)){
-                        if(Juego.Dificultad == 1 && tipo.equals("DT")){
+                        if(Juego.dificultadActual == ModoYDificultad.Dificultad.EASY && tipo.equals("DT")){
                             int contadorDT = 0;
                             String[][] tab = (jugador == 1) ? Juego.Tablero1 : Juego.Tablero2;
                             for(int r=0; r<8; r++){
@@ -513,12 +503,14 @@ public class MenusDelJuego {
             opcion = n.nextInt();
             
             if(opcion<=4 && opcion>0){
-                Juego.Dificultad = opcion;
-                System.out.println("Dificultad actualizada");
+                // Convertimos el numero de opcion al valor del Enum
+                if(opcion==1){ Juego.dificultadActual = ModoYDificultad.Dificultad.EASY; }
+                if(opcion==2){ Juego.dificultadActual = ModoYDificultad.Dificultad.NORMAL; }
+                if(opcion==3){ Juego.dificultadActual = ModoYDificultad.Dificultad.EXPERT; }
+                if(opcion==4){ Juego.dificultadActual = ModoYDificultad.Dificultad.GENIUS; }
+
+                System.out.println("Dificultad actualizada a: " + Juego.dificultadActual);
                 opcionCorrecta=true;
-            }else{
-                System.out.println("Elija una opcion correcta.");
-                opcionCorrecta=false;
             }
         }
         MenuConfiguracion();
@@ -539,11 +531,11 @@ public class MenusDelJuego {
         opcion = n.nextInt();
 
         switch(opcion){
-            case 1: Juego.modoActual = "ARCADE";
+            case 1: Juego.modoActual = ModoYDificultad.ModoJuego.ARCADE;
                 System.out.println("Modo cambiado a: ARCADE");
                 break;
                 
-            case 2: Juego.modoActual = "TUTORIAL";
+            case 2: Juego.modoActual = ModoYDificultad.ModoJuego.TUTORIAL;
                 System.out.println("Modo cambiado a: TUTORIAL");
                 break;
                 

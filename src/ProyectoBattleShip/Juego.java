@@ -7,7 +7,7 @@ package ProyectoBattleShip;
 import static ProyectoBattleShip.MenusDelJuego.listaUsuarios;
 import java.util.Random;
 
-public class Juego {
+public class Juego extends ModoYDificultad{
     static String[][] Tablero1 = new String[8][8];
     static String[][] Tablero2 = new String[8][8];
     
@@ -15,12 +15,10 @@ public class Juego {
     static String jugador2 = MenusDelJuego.jugador2;
     
     static int cantidadBarco;
-    static int Dificultad=2;
+    static Dificultad dificultadActual = Dificultad.NORMAL;
     static int barcosP1;
     static int barcosP2;
-    
-    
-    static String modoActual = "TUTORIAL";
+    static ModoJuego modoActual = ModoJuego.TUTORIAL;
     
     public static String[] tipos = {"PA", "AZ", "SM", "DT"};
 
@@ -223,7 +221,7 @@ public class Juego {
         }
 
         if(piezas>0){
-            if(!(Dificultad==1 && tipo.equals("DT") && piezas<4)){
+            if(!(dificultadActual == Dificultad.EASY && tipo.equals("DT") && piezas<4)){
                 return false; 
             }
         }
@@ -249,7 +247,7 @@ public class Juego {
         }
 
         if(espaciosOcupados > 0){
-            if(!(Dificultad == 1 && tipo.equals("DT") && espaciosOcupados < 4)){
+            if(!(dificultadActual == Dificultad.EASY && tipo.equals("DT") && espaciosOcupados < 4)){
                 return false; 
             }
         }
@@ -278,19 +276,9 @@ public class Juego {
     
     public static void RegistrarJuegos(String ganador, String perdedor, boolean fueRetiro){
         String frase="";
-        String modoTexto="";
 
-        switch(Dificultad){
-            case 1: modoTexto="EASY"; 
-                break;
-            case 2: modoTexto="NORMAL"; 
-                break;
-            case 3: modoTexto="EXPERT"; 
-                break;
-            case 4: modoTexto="GENIUS"; 
-                break;
-        }
-
+        String modoTexto = dificultadActual.name();
+        
         if(fueRetiro){
             frase=perdedor+" se retiro del juego dejando como ganador a "+ganador+".";
         }else{
