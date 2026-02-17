@@ -7,7 +7,7 @@ package ProyectoBattleShip;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Arrays;
-public class MenusDelJuego {
+public class BattleShip {
     
     static int siguienteMenu=0;
     static int contador=1;
@@ -17,10 +17,8 @@ public class MenusDelJuego {
     static ArrayList<Player> listaUsuarios = new ArrayList<>();
     boolean UsuarioExistente;
     
-    public static void main(String[] args) {
-        
+    public static void main(String[] args){
         Login();
-        
     }
     
     //login , PRINCIPAL  =================================================================
@@ -127,7 +125,18 @@ public class MenusDelJuego {
         Player Pl = new Player(user,contra);
         listaUsuarios.add(Pl);
         System.out.println("Se creo con exito el usuario!");
-        System.out.println("");
+        for(int x=0 ; x<listaUsuarios.size() ; x++){
+            if(listaUsuarios.get(x).getNombre().equals(user) && listaUsuarios.get(x).getContra().equals(contra)){
+
+                if(contador==1){
+                    jugador1=user;
+                    indice1=x;
+                    contador++;
+                    Menu();
+                }
+            }
+        }
+        
     }
     //3, login , Salir Juego
     public static void SalirJuego(){
@@ -202,8 +211,8 @@ public class MenusDelJuego {
                     jugador2=user;
                     UsuarioExiste=true;
 
-                    Juego.jugador1 = MenusDelJuego.jugador1;
-                    Juego.jugador2 = MenusDelJuego.jugador2;
+                    Juego.jugador1 = BattleShip.jugador1;
+                    Juego.jugador2 = BattleShip.jugador2;
                     Juego.vaciarTableros(); 
 
                     int limiteBarcos = Juego.dificultadActual.getCantidadBarcos();

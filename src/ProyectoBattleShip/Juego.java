@@ -4,15 +4,15 @@
  * and open the template in the editor.
  */
 package ProyectoBattleShip;
-import static ProyectoBattleShip.MenusDelJuego.listaUsuarios;
+import static ProyectoBattleShip.BattleShip.listaUsuarios;
 import java.util.Random;
 
 public class Juego extends ModoYDificultad{
     static String[][] Tablero1 = new String[8][8];
     static String[][] Tablero2 = new String[8][8];
     
-    static String jugador1 = MenusDelJuego.jugador1;
-    static String jugador2 = MenusDelJuego.jugador2;
+    static String jugador1 = BattleShip.jugador1;
+    static String jugador2 = BattleShip.jugador2;
     
     static int cantidadBarco;
     static Dificultad dificultadActual = Dificultad.NORMAL;
@@ -36,9 +36,9 @@ public class Juego extends ModoYDificultad{
         int indice;
         
         registro = ganador + " hundio todos los barcos de " + perdedor + " en modo " + dificultad;
-        indice = MenusDelJuego.indice1;
+        indice = BattleShip.indice1;
         
-        MenusDelJuego.listaUsuarios.get(indice).SaveLog(registro);
+        BattleShip.listaUsuarios.get(indice).SaveLog(registro);
     }
 
     private static int obtenerTamaño(String tipo){

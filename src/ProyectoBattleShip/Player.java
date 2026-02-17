@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package ProyectoBattleShip;
-import static ProyectoBattleShip.MenusDelJuego.listaUsuarios;
+import static ProyectoBattleShip.BattleShip.listaUsuarios;
 import java.util.ArrayList;
 public class Player {
     private String nombre; 
