@@ -15,7 +15,7 @@ public class Juego {
     static String jugador2 = MenusDelJuego.jugador2;
     
     static int cantidadBarco;
-    static int Dificultad;
+    static int Dificultad=2;
     static int barcosP1;
     static int barcosP2;
     
@@ -55,7 +55,8 @@ public class Juego {
             case "DT": 
                 return 2;
                 
-            default: return 0;
+            default: 
+                return 0;
         }
     }
 
@@ -81,7 +82,7 @@ public class Juego {
         
         String celda = "";
         
-        int PartesVivas = 0;
+        int PartesVivas;
         int fila = 0;
         int columna = 0;
         char direccion = ' ';
@@ -95,9 +96,11 @@ public class Juego {
         
         for(String tipo : tipos){
             PartesVivas = 0;
-            for(int i=0; i<8; i++){
-                for(int j=0; j<8; j++){
-                    if(TableroActual[i][j].equals(tipo)){ PartesVivas++; }
+            for(int x=0; x<8; x++){
+                for(int y=0; y<8; y++){
+                    if(TableroActual[x][y].equals(tipo)){ 
+                        PartesVivas++; 
+                    }
                 }
             }
             
@@ -108,8 +111,11 @@ public class Juego {
                 
                 if(PuedeReubicar(NuevoTablero, fila, columna, PartesVivas, direccion)){
                     for(int x=0; x<PartesVivas; x++){
-                        if(direccion=='H'){ NuevoTablero[fila][columna+x] = tipo; }
-                        else{ NuevoTablero[fila+x][columna] = tipo; }
+                        if(direccion=='H'){ 
+                            NuevoTablero[fila][columna+x] = tipo; 
+                        }else{ 
+                            NuevoTablero[fila+x][columna] = tipo; 
+                        }
                     }
                     PartesVivas = 0;
                 }
@@ -139,7 +145,8 @@ public class Juego {
             return false;
         }
     }
-
+    
+    //ValidarReglas
     private static boolean PuedeReubicar(String[][] tablero, int fila, int columna, int tamaño, char direccion){
         int NextFila = 0;
         int NextColumna = 0;
@@ -158,7 +165,9 @@ public class Juego {
         
         for(int x=0; x<8; x++){
             for(int y=0; y<8; y++){
-                if(tablero[x][y].equals(" F")){ tablero[x][y] = "~"; }
+                if(tablero[x][y].equals(" F")){ 
+                    tablero[x][y] = "~"; 
+                }
             }
         }
     }
@@ -168,7 +177,7 @@ public class Juego {
         int vivos = 0;
         boolean encontrado;
         
-        for(String z : tipos){
+        for(String z : tipos){  
             encontrado = false;
             
             for(int x=0; x<8; x++){
@@ -231,25 +240,23 @@ public class Juego {
         int NextFila = 0, NextColumna = 0, espaciosOcupados = 0;
         String[][] tablero = (jugador==1) ? Tablero1 : Tablero2;
 
-        for(int r=0; r<8; r++){
-            for(int k=0; k<8; k++){
-                if(tablero[r][k].equals(tipo)){ 
+        for(int x=0; x<8; x++){
+            for(int y=0; y<8; y++){
+                if(tablero[x][y].equals(tipo)){ 
                     espaciosOcupados++; 
                 }
             }
         }
 
         if(espaciosOcupados > 0){
-            if(Dificultad == 1 && tipo.equals("DT") && espaciosOcupados < 4){
-                
-            }else{
+            if(!(Dificultad == 1 && tipo.equals("DT") && espaciosOcupados < 4)){
                 return false; 
             }
         }
 
-        for(int i=0; i<TamañoBarco; i++){
-            NextFila = (rotacion=='V') ? fila+i : fila;
-            NextColumna = (rotacion=='H') ? columna+i : columna;
+        for(int x=0; x<TamañoBarco; x++){
+            NextFila = (rotacion=='V') ? fila+x : fila;
+            NextColumna = (rotacion=='H') ? columna+x : columna;
             if(NextFila<0 || NextFila>=8 || NextColumna<0 || NextColumna>=8 || !tablero[NextFila][NextColumna].equals("~")){ 
                 return false; 
             }
@@ -261,7 +268,9 @@ public class Juego {
         String[][] tablero = (numJugador==1) ? Tablero1 : Tablero2;
         for(int x=0; x<8; x++){
             for(int y=0; y<8; y++){
-                if(tablero[x][y].equals("PA") || tablero[x][y].equals("DT") || tablero[x][y].equals("AZ") || tablero[x][y].equals("SM")){ return true; }
+                if(tablero[x][y].equals("PA") || tablero[x][y].equals("DT") || tablero[x][y].equals("AZ") || tablero[x][y].equals("SM")){ 
+                    return true; 
+                }
             }
         }
         return false;
@@ -322,18 +331,16 @@ public class Juego {
     public static void imprimirPantallaDeJuego(int turno){
         String[][] TableroP1 = (turno==1) ? Tablero1 : Tablero2;
         String[][] TableroP2 = (turno==1) ? Tablero2 : Tablero1;
-        int x = 0;
-        int y = 0;
         String CeldaP2 = "";
         String CeldaP1 = "";
 
-        System.out.println("\n      TU TABLERO                TABLERO ENEMIGO");
+        System.out.println("   TU TABLERO                    TABLERO ENEMIGO");
         System.out.println("   0  1  2  3  4  5  6  7        0  1  2  3  4  5  6  7");
 
-        for(x=0; x<8; x++){
+        for(int x=0; x<8; x++){
             System.out.print(x + " ");
 
-            for(y=0; y<8; y++){
+            for(int y=0; y<8; y++){
                 CeldaP1 = TableroP1[x][y];
                 if(CeldaP1.equals("~")){ 
                     System.out.print(" ~ "); 
@@ -344,7 +351,7 @@ public class Juego {
 
             System.out.print("     " + x + " ");
 
-            for(y=0; y<8; y++){
+            for(int y=0; y<8; y++){
                 CeldaP2 = TableroP2[x][y];
 
                 if(CeldaP2.equals("X") || CeldaP2.equals("F")){

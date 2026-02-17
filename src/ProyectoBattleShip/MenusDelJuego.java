@@ -185,9 +185,9 @@ public class MenusDelJuego {
             System.out.println("===MENU JUGAR===");
             System.out.println("JUGADOR 1: "+jugador1);
             System.out.println("Escriba el usuario del jugador 2 (o EXIT para salir): ");
-            user = n.nextLine().toUpperCase();
+            user = n.nextLine();
 
-            if(user.equals("EXIT")){
+            if(user.equalsIgnoreCase("EXIT")){
                 Menu();
                 return;
             }
@@ -206,21 +206,24 @@ public class MenusDelJuego {
                     Juego.jugador2 = MenusDelJuego.jugador2;
                     Juego.vaciarTableros(); 
 
-                    int limiteBarcos = 5; 
-                    if(Juego.Dificultad==2){
-                        limiteBarcos=4;
+                    int limiteBarcos = 4; 
+                    if(Juego.Dificultad==1){
+                        limiteBarcos=5;
                     }
+                    
                     if(Juego.Dificultad==3){
                         limiteBarcos=2;
                     }
+                    
                     if(Juego.Dificultad==4){
                         limiteBarcos=1;
                     }
 
-                    System.out.println("Jugador 1 coloca sus barcos");
+                    System.out.println("Jugador 1 coloca tus barcos");
                     MenuParaColocar(1, limiteBarcos);
                     crearEspacio();
-                    System.out.println("Jugador 2 coloca sus barcos");
+                    
+                    System.out.println("Jugador 2 coloca tus barcos");
                     MenuParaColocar(2, limiteBarcos);
                     crearEspacio();
 
@@ -228,7 +231,10 @@ public class MenusDelJuego {
                     break;
                 }
             }
-            if(!UsuarioExiste) System.out.println("No se encontro el jugador 2");
+            
+            if(!UsuarioExiste){
+                System.out.println("No se encontro el jugador 2");
+            }
         }
     }
     
@@ -262,7 +268,7 @@ public class MenusDelJuego {
             oponente = (turno==1) ? 2 : 1;
 
             Juego.LimpiarRastros(oponente);
-            System.out.println("\n------------------------------");
+            System.out.println("------------------------------");
             System.out.println("TURNO DE: " + atacante.toUpperCase());
             System.out.println("BARCOS ENEMIGOS RESTANTES: " + Juego.ContarBarcosRestantes(oponente));
             
@@ -346,6 +352,7 @@ public class MenusDelJuego {
                     Juego.RegistrarJuegos(ganador, perdedor, false);
                     fin = true;
                 }
+                
             }else{
                 mensajeAnterior = "***" + atacante.toUpperCase() + " FALLO EL TIRO***";
                 turno = (turno==1) ? 2 : 1;
@@ -365,15 +372,15 @@ public class MenusDelJuego {
         String tipo = "";
         char rotacion;
         int columna = 0, fila = 0;
-        boolean barcoValido;
-        boolean validar=false;    
-        for(int i = 0; i < limite; i++){
+        boolean barcoValido;   
+        
+        for(int x = 0; x < limite; x++){
             barcoValido = false;
 
             while(!barcoValido){
                 try{
                     Juego.imprimirTableroSolo(jugador); 
-                    System.out.println("Colocando barco " + (i + 1) + "/" + limite);
+                    System.out.println("Colocando barco " + (x + 1) + "/" + limite);
 
                     System.out.println("Elija su barco(PA, AZ, SM, DT) o (SALIR) para salir: ");
                     tipo = n.next().toUpperCase();
@@ -383,7 +390,7 @@ public class MenusDelJuego {
                         return;
                     }
 
-                    if(!Arrays.asList(Juego.tipos).contains(tipo)) {
+                    if(!Arrays.asList(Juego.tipos).contains(tipo)){
                         System.out.println("Codigo de barco no reconocido.");
                         continue; 
                     }
@@ -394,7 +401,9 @@ public class MenusDelJuego {
                             String[][] tab = (jugador == 1) ? Juego.Tablero1 : Juego.Tablero2;
                             for(int r=0; r<8; r++){
                                 for(int c=0; c<8; c++){
-                                    if(tab[r][c].equals("DT")) contadorDT++;
+                                    if(tab[r][c].equals("DT")){
+                                        contadorDT++;
+                                    }
                                 }
                             }
                             if(contadorDT >= 4){ 
@@ -511,7 +520,6 @@ public class MenusDelJuego {
                 System.out.println("Elija una opcion correcta.");
                 opcionCorrecta=false;
             }
-            
         }
         MenuConfiguracion();
     }
